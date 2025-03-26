@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 19, 2024 at 06:42 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: Mar 26, 2025 at 12:47 PM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `balance` (
-  `id_balance` bigint(20) UNSIGNED NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `id_balance` bigint UNSIGNED NOT NULL,
+  `amount` decimal(65,2) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -38,8 +38,18 @@ CREATE TABLE `balance` (
 --
 
 INSERT INTO `balance` (`id_balance`, `amount`, `updated_at`) VALUES
-(1, 500000.00, '2024-02-18 22:08:55'),
-(2, 250000.00, '2024-02-18 22:09:29');
+(47, 10000000.00, '2025-03-26 04:00:09'),
+(48, -10000000.00, '2025-03-26 04:03:08'),
+(49, 1000000000.00, '2025-03-26 04:03:19'),
+(50, 1000000000000.00, '2025-03-26 04:03:48'),
+(51, -1000000000.00, '2025-03-26 04:03:58'),
+(52, -1000000000000.00, '2025-03-26 04:04:00'),
+(53, 1000000000.00, '2025-03-26 04:04:39'),
+(54, -1000000000.00, '2025-03-26 04:34:35'),
+(55, 10000000.00, '2025-03-26 05:30:05'),
+(56, -50000.00, '2025-03-26 05:30:32'),
+(57, -10000000.00, '2025-03-26 05:37:09'),
+(58, 50000.00, '2025-03-26 05:37:24');
 
 -- --------------------------------------------------------
 
@@ -48,8 +58,8 @@ INSERT INTO `balance` (`id_balance`, `amount`, `updated_at`) VALUES
 --
 
 CREATE TABLE `categories` (
-  `id_category` bigint(20) UNSIGNED NOT NULL,
-  `name_category` varchar(255) NOT NULL,
+  `id_category` bigint UNSIGNED NOT NULL,
+  `name_category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -59,11 +69,11 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id_category`, `name_category`, `created_at`, `updated_at`) VALUES
-(1, 'Food', NULL, NULL),
-(2, 'Transportation', NULL, NULL),
-(3, 'Clothing', NULL, NULL),
-(4, 'Drink', NULL, NULL),
-(5, 'Medical', NULL, NULL);
+(9, 'Makan', NULL, NULL),
+(10, 'Minum', NULL, NULL),
+(11, 'Baju', NULL, NULL),
+(12, 'Bisnis', NULL, NULL),
+(13, 'Trading', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -72,12 +82,12 @@ INSERT INTO `categories` (`id_category`, `name_category`, `created_at`, `updated
 --
 
 CREATE TABLE `expenses` (
-  `id_expense` bigint(20) UNSIGNED NOT NULL,
-  `amount` decimal(8,2) NOT NULL,
+  `id_expense` bigint UNSIGNED NOT NULL,
+  `amount` decimal(65,2) NOT NULL,
   `date` date NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `description` varchar(255) NOT NULL,
-  `id_category` bigint(20) UNSIGNED NOT NULL
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_category` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -87,13 +97,13 @@ CREATE TABLE `expenses` (
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -103,21 +113,13 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `incomes` (
-  `id_income` bigint(20) UNSIGNED NOT NULL,
-  `amount` decimal(8,2) NOT NULL,
+  `id_income` bigint UNSIGNED NOT NULL,
+  `amount` decimal(65,2) DEFAULT NULL,
   `date` date NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `description` varchar(255) NOT NULL,
-  `id_category` bigint(20) UNSIGNED NOT NULL
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_category` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `incomes`
---
-
-INSERT INTO `incomes` (`id_income`, `amount`, `date`, `created_at`, `description`, `id_category`) VALUES
-(1, 500000.00, '2024-02-17', '2024-02-18 22:08:55', 'Dana untuk Makan', 1),
-(2, 250000.00, '2024-02-18', '2024-02-18 22:09:29', 'Dana untuk Bensin', 2);
 
 -- --------------------------------------------------------
 
@@ -126,9 +128,9 @@ INSERT INTO `incomes` (`id_income`, `amount`, `date`, `created_at`, `description
 --
 
 CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
+  `id` int UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -154,8 +156,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -166,8 +168,8 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -178,12 +180,12 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -197,12 +199,12 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
-  `payload` longtext NOT NULL,
-  `last_activity` int(11) NOT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -212,12 +214,12 @@ CREATE TABLE `sessions` (
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -227,7 +229,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@example.com', '2019-12-31 17:00:00', '$2y$12$qWOvd2DCs.QviLFWmlf5PuyMfQdrBfS.vGKOGOCn7VitZ3VeWLLQ6', 'qxmk2WBejA', '2019-12-31 17:00:00', NULL);
+(1, 'admin', 'admin@example.com', '2019-12-31 17:00:00', '$2y$12$qWOvd2DCs.QviLFWmlf5PuyMfQdrBfS.vGKOGOCn7VitZ3VeWLLQ6', 'qxmk2WBejA', '2019-12-31 17:00:00', NULL),
+(2, 'yan', 'dzakisufyan12@gmail.com', NULL, '$2y$12$x349MA2AqO7N7nE4tRxO4OhK8ZnO2M0BtHxUhJ3RXSwQsvN4HM6IW', 'zf1olsXxrYoPaBKulLi0y7X4GXCWyQ6JV4uiBKzU0apdnkGlU7lZazkrbj7j', '2025-03-20 18:16:13', '2025-03-20 18:16:13'),
+(3, 'Sufyan Dzaki', 'dzakisufyan13@gmail.com', NULL, '$2y$12$szXJL71N/3O2hx3jokQj7eTO5U61ucHof1G7GpK9t0Y1I0aajMD/i', 'PODna0D4sEn9w7yL13takwN2fdEhCSHZU52DSz2icGA3BeFrrhDJGi0Y1q2x', '2025-03-26 05:28:46', '2025-03-26 05:28:46');
 
 --
 -- Indexes for dumped tables
@@ -315,49 +319,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `balance`
 --
 ALTER TABLE `balance`
-  MODIFY `id_balance` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_balance` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id_category` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_category` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id_expense` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_expense` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `incomes`
 --
 ALTER TABLE `incomes`
-  MODIFY `id_income` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_income` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
