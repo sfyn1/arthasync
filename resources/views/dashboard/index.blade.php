@@ -112,58 +112,140 @@
     </div>
   </div>
 
+{{-- Chart --}}
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Chart of Rangkuman per Bulan</h6>
+  </div>
+  <div class="card-body">
+    <canvas id="barChart"></canvas>
+  </div>
+</div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const incomeData = {!! json_encode($monthlyIncomes) !!};
+  const expenseData = {!! json_encode($monthlyExpenses) !!};
+
+  const labels = [...new Set([...incomeData.map(i => i.month), ...expenseData.map(e => e.month)])];
+
+  const incomeTotals = labels.map(label => {
+    const found = incomeData.find(i => i.month === label);
+    return found ? found.total : 0;
+  });
+
+  const expenseTotals = labels.map(label => {
+    const found = expenseData.find(e => e.month === label);
+    return found ? found.total : 0;
+  });
+
+  const ctx = document.getElementById('barChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Income',
+          data: incomeTotals,
+          backgroundColor: '#1cc88a',
+          borderColor: '#1cc88a',
+          borderWidth: 1
+        },
+        {
+          label: 'Expense',
+          data: expenseTotals,
+          backgroundColor: '#36b9cc',
+          borderColor: '#36b9cc',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let value = context.raw.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'});
+              return `${context.dataset.label}: ${value}`;
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: false,
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'Rp' + value.toLocaleString('id-ID');
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+@endpush
+
   <!-- Table ( Income, Expanse ) Content -->
-  <div class="row">
-    <div class="col-12 col-sm-12">
-      <div class="table">
-        <div class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-secondary">Income & Expense</h6>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <!-- <th>No</th>
-                    <th>Jenis</th> -->
-                    <th>Amount</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Category</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($incomesAndExpenses as $index => $incomeAndExpense)
-                  <tr>
-                    <!-- <td>{{ $index + 1 }}</td>
-                    <td>
-                      @if($incomeAndExpense instanceof App\Incomes)
-                      <span class="badge badge-success">Pemasukan</span>
-                      @elseif($incomeAndExpense instanceof App\Expenses)
-                      <span class="badge badge-danger">Pengeluaran</span>
-                      @endif
-                    </td> -->
-                    <td>{{ number_format($incomeAndExpense->amount, 0, ',', '.') }}</td>
-                    <td>{{ $incomeAndExpense->description }}</td>
-                    <td>{{ $incomeAndExpense->date }}</td>
-                    <td>
-                      @foreach($categories as $category)
+<div class="row">
+  <div class="col-12 col-sm-12">
+    <div class="table">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-secondary">Income & Expense</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Transaction</th>
+                  <th>Amount</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($incomesAndExpenses as $index => $incomeAndExpense)
+                <tr>
+                  <td>
+                    @if($incomeAndExpense instanceof App\Models\Incomes)
+                      <span class="badge badge-success">Income</span>
+                    @elseif($incomeAndExpense instanceof App\Models\Expenses)
+                      <span class="badge badge-danger">Expense</span>
+                    @endif
+                  </td>
+                  <td>{{ number_format($incomeAndExpense->amount, 2, ',', '.') }}</td>
+                  <td>{{ $incomeAndExpense->description }}</td>
+                  <td>{{ $incomeAndExpense->date }}</td>
+                  <td>
+                    @foreach($categories as $category)
                       @if($category->id_category == $incomeAndExpense->id_category)
-                      {{ $category->name_category }}
+                        {{ $category->name_category }}
                       @endif
-                      @endforeach
-                    </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
+                    @endforeach
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
 
 </div>
 @endsection

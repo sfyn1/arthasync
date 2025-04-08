@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Incomes;
 use App\Models\Expenses;
 use App\Models\Balance;
 use App\Models\Categories;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -33,13 +35,29 @@ class DashboardController extends Controller
         // Ambil semua data kategori dari model categories
         $categories = Categories::getAll();
 
+        // Data pemasukan & pengeluaran per Bulan
+        $monthlyIncomes = DB::table('incomes')
+            ->selectRaw("MONTH(date) as month_number, DATE_FORMAT(date, '%M') as month, SUM(amount) as total")
+            ->groupBy('month_number', 'month')
+            ->orderBy('month_number')
+            ->get();
+
+        $monthlyExpenses = DB::table('expenses')
+            ->selectRaw("MONTH(date) as month_number, DATE_FORMAT(date, '%M') as month, SUM(amount) as total")
+            ->groupBy('month_number', 'month')
+            ->orderBy('month_number')
+            ->get();
+            
+
         $data = [
             'total_incomes' => $total_incomes,
             'total_balance' => $total_balance,
             'total_categories' => $total_categories,
             'total_expenses' => $total_expenses,
             'incomesAndExpenses' => $incomesAndExpenses,
-            'categories' => $categories
+            'categories' => $categories,
+            'monthlyIncomes' => $monthlyIncomes,
+            'monthlyExpenses' => $monthlyExpenses
         ];
 
         // Kirim data total pemasukan ke view

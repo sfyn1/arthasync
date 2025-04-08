@@ -32,16 +32,20 @@
             <!-- Date -->
             <div class="form-group">
               <label for="date">Tanggal</label>
-              <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}">
-              @error('date')
-              <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-calendar-event"></i></span>
+                <input type="text" class="form-control bg-white @error('date') is-invalid @enderror" id="date" name="date" 
+                       placeholder="Pilih tanggal..." value="{{ old('date') }}">
+                @error('date')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
             </div>
 
             <!-- Amount -->
             <div class="form-group">
               <label for="amount">Jumlah</label>
-              <input type="text" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" value="{{ old('amount') }}">
+              <input type="number" class="form-control @error('amount') is-invalid @enderror" id="amount" name="amount" value="{{ old('amount') }}">
               @error('amount')
               <div class="invalid-feedback">{{ $message }}</div>
               @enderror
