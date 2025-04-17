@@ -40,10 +40,5 @@ php artisan key:generate
 php artisan serve
 ```
 
-7. Open the application in your browser
-```bash
-http://localhost:8000
-```
-
 ## License
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
