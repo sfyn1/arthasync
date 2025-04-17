@@ -41,7 +41,7 @@ npm install
 php artisan key:generate
 ```
 
-6. Run the application
+7. Run the application
 ```bash
 php artisan serve
 ```
