@@ -6,7 +6,7 @@
     <div class="table-responsive shadow-sm p-3">
       <a href="{{ route('expenses.addPage') }}" class="btn btn-sm btn-primary mb-3">
         <i class="fas fa-plus"></i>
-        Tambah Pengeluaran
+        Tambah Data Pengeluaran
       </a>
 
       @if(session('success'))

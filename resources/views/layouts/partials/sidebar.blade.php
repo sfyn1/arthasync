@@ -29,8 +29,15 @@
           Modul
         </div>
 
+        <!-- Category -->
+         <li class="nav-item">
+          <a class="nav-link" href="{{route('categories')}}">
+            <i class="fas fa-th-list"></i>
+            <span>Category</span></a>
+        </li>
+
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Data Master</span>
@@ -40,20 +47,20 @@
               <a class="collapse-item" href="{{route('categories')}}">Category</a>
             </div>
           </div>
-        </li>
+        </li> --}}
 
         <!-- Nav Item - Pemasukan -->
         <li class="nav-item">
           <a class="nav-link" href="{{route('incomes')}}">
-            <i class="fas fa-fw fa-download"></i>
-            <span>Pemasukan</span></a>
+            <i class="fas fa-arrow-circle-down"></i>
+            <span>Income</span></a>
         </li>
 
         <!-- Nav Item - Pegeluaran -->
         <li class="nav-item">
           <a class="nav-link" href="{{route('expenses')}}">
-            <i class="fas fa-fw fa-external-link-alt"></i>
-            <span>Pengeluaran</span></a>
+            <i class="fas fa-arrow-circle-up"></i>
+            <span>Expense</span></a>
         </li>
 
         <div class="text-center d-none d-md-inline">

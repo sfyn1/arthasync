@@ -43,7 +43,7 @@
             <td>
                 @foreach($categories as $category)
                     @if($category->id_category == $income->id_category)
-                        <span class="badge badge-pill badge-primary">{{ $category->name_category }}</span>
+                        <span class="badge badge-pill badge-success">{{ $category->name_category }}</span>
                     @endif
                 @endforeach
             </td>

@@ -62,7 +62,7 @@
 
             <!-- Buttons Action -->
             <button type="submit" class="btn btn-sm btn-success">Simpan</button>
-            <a href="{{ route('incomes') }}" class="btn btn-sm btn-secondary">Kembali</a>
+            <a href="{{ route('expenses') }}" class="btn btn-sm btn-secondary">Kembali</a>
           </form>
         </div>
       </div>
