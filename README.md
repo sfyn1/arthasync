@@ -23,14 +23,20 @@ A simple and user-friendly web application for tracking expenses and income. Use
 git clone git@github.com:sfyn1/arthasync.git
 ```
 
-2. Install the dependencies
+2. Install Composer dependencies
 ```bash
 composer install
 ```
 
-3. Create a new database and import the database schema from the `database` directory
-4. Create a new `.env` file and update the database configuration
-5. Generate a new application key
+3. Install NPM dependencies
+Similarly to composer, npm manages javascript, css, and node packages, so make sure to install those dependencies also.
+```bash
+npm install
+```
+
+4. Create a new database and import the database schema from the `database` directory
+5. Create a new `.env` file and update the database configuration
+6. Generate a new application key
 ```bash
 php artisan key:generate
 ```
