@@ -21,15 +21,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-// Auth Routes YANG LAMA NI MAU DITEST DULU
-// Route::group(['middleware' => 'web'], function () {
-//     Route::get('/login', [Auth\LoginController::class, 'showLoginForm'])->name('login');
-//     Route::post('/login', [Auth\LoginController::class, 'login']);
-//     Route::get('/register', [Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-//     Route::post('/register', [Auth\RegisterController::class, 'register']);
-//     Route::post('/logout', [Auth\LoginController::class, 'logout'])->name('logout');
-// });
-
 // Kategori
 Route::group(['middleware' => ['auth']], function () {
     Route::get('categories', [CategoriesController::class, 'index'])->name('categories');
